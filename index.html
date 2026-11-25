@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071329">
+<title>FinTwin 3.0 | Financial Digital Twin</title>
+<style>
+:root{--bg:#071329;--panel:#101f3b;--panel2:#142747;--line:#263d61;--text:#edf4ff;--muted:#9db0ce;--blue:#43a5ff;--purple:#9565ff;--green:#3bd6a0;--red:#ff6b83;--gold:#ffc966}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0%,#1a2d58 0,transparent 32%),var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Tahoma,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:11px 15px;color:white;background:linear-gradient(110deg,#247fd1,#6746c8);font-weight:650}button.secondary{background:#1c3153;border:1px solid var(--line)}button.danger{background:#692d48}button.small{padding:7px 10px;font-size:12px}
+input,select,textarea{width:100%;background:#09182e;border:1px solid #30486d;border-radius:9px;padding:11px;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--blue)}label{display:block;color:#b8c9e2;font-size:13px;margin:0 0 7px}.field{margin-bottom:14px}
+header{display:flex;align-items:center;justify-content:space-between;padding:17px 24px;border-bottom:1px solid #1e3354;background:#08162bd9;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;font-weight:900;background:linear-gradient(135deg,#3e9fff,#9b65ff);box-shadow:0 0 25px #438fff55}.brand strong{font-size:19px}.brand small{display:block;color:#91a9ce;letter-spacing:2px;font-size:10px;margin-top:3px}
+.status{font-size:12px;color:var(--green);border:1px solid #286e65;border-radius:30px;padding:7px 11px}
+.layout{display:grid;grid-template-columns:225px 1fr;min-height:calc(100vh - 75px)}aside{padding:22px 14px;border-right:1px solid #1d3354;background:#09172d}.navbtn{width:100%;display:flex;align-items:center;gap:12px;text-align:left;margin:4px 0;background:transparent;color:#aebfda;border:1px solid transparent}.navbtn.active,.navbtn:hover{background:#172b4d;border-color:#2d4b76;color:white}.navbtn span:first-child{width:22px;text-align:center}
+main{padding:28px;max-width:1500px;width:100%;margin:auto}.page{display:none}.page.active{display:block}.pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:22px}.pagehead h1{margin:0 0 7px;font-size:27px}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.card{background:linear-gradient(145deg,#122441,#0e1c35);border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:0 12px 32px #0002}.metric .muted{margin-bottom:10px}.metric strong{font-size:27px;display:block}.metric .sub{font-size:12px;color:var(--muted);margin-top:7px}.two{display:grid;grid-template-columns:1.25fr 1fr;gap:15px;margin-top:16px}.card h3{margin:0 0 15px;font-size:16px}.barrow{margin:13px 0}.barlabel{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px}.bar{height:8px;background:#253958;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:12px 9px;border-bottom:1px solid #263b5b;text-align:left}th{color:#9db0ce;font-weight:600}td.amount.income{color:var(--green)}td.amount.expense{color:var(--red)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.formgrid .field{margin:0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.notice{border:1px solid #6c5a2e;background:#302a1a;color:#ffdc91;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.6;margin-top:15px}.positive{color:var(--green)}.negative{color:var(--red)}
+.authwrap{min-height:80vh;display:grid;place-items:center;padding:24px}.authbox{width:min(460px,100%);padding:30px;background:#10213d;border:1px solid #2c456b;border-radius:20px;box-shadow:0 25px 80px #0005}.authbox .brand{justify-content:center;margin-bottom:25px}.authbox h1{text-align:center;font-size:24px}.authbox p{text-align:center;color:var(--muted);font-size:13px;margin-bottom:25px}
+.empty{text-align:center;color:var(--muted);padding:25px 8px}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#1c3558;color:#a9cbff;font-size:11px}
+footer{text-align:center;color:#7186a8;font-size:11px;padding:24px}
+@media(max-width:950px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.layout{grid-template-columns:1fr}aside{display:flex;overflow:auto;padding:9px;gap:4px;border-right:0;border-bottom:1px solid #1d3354}.navbtn{white-space:nowrap;width:auto;margin:0}.navbtn span:last-child{display:inline}} 
+@media(max-width:600px){header{padding:12px}.status{font-size:10px}main{padding:18px 13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:14px}.metric strong{font-size:21px}.pagehead h1{font-size:22px}.formgrid{grid-template-columns:1fr}.hide-mobile{display:none}table{font-size:12px}th,td{padding:9px 5px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">F</div><div><strong>FinTwin 3.0</strong><small>FINANCIAL DIGITAL TWIN</small></div></div>
+ <div class="status" id="connectionStatus">● โหมดทดลองในเครื่อง</div>
+</header>
+<div id="authScreen" class="authwrap">
+ <div class="authbox">
+  <div class="brand"><div class="logo">F</div><div><strong>FinTwin 3.0</strong><small>FINANCIAL DIGITAL TWIN</small></div></div>
+  <h1 id="authTitle">Welcome back</h1><p>เข้าสู่ระบบเพื่อจัดการสุขภาพการเงินของคุณ</p>
+  <div class="field"><label>อีเมล</label><input id="email" type="email" placeholder="name@example.com"></div>
+  <div class="field"><label>รหัสผ่าน</label><input id="password" type="password" placeholder="อย่างน้อย 6 ตัวอักษร"></div>
+  <button style="width:100%" id="authSubmit">เข้าสู่ระบบ</button>
+  <div style="text-align:center;margin-top:17px;font-size:13px"><a href="#" id="toggleAuth" style="color:#62baff">ยังไม่มีบัญชี? สมัครสมาชิก</a></div>
+  <div class="notice">โหมดทดลอง: ข้อมูลจะบันทึกในเบราว์เซอร์เครื่องนี้เท่านั้น หากต้องการใช้บัญชีจริง ให้ตั้งค่า Firebase ในส่วน firebaseConfig ของไฟล์นี้ก่อน</div>
+ </div>
+</div>
+<div id="app" style="display:none">
+<div class="layout">
+<aside>
+ <button class="navbtn active" data-page="overview"><span>◈</span><span>ภาพรวม</span></button>
+ <button class="navbtn" data-page="transactions"><span>⇄</span><span>รายการเงิน</span></button>
+ <button class="navbtn" data-page="coach"><span>✧</span><span>AI Financial Coach</span></button>
+ <button class="navbtn" data-page="planner"><span>◎</span><span>แผนออมเงิน</span></button>
+ <button class="navbtn" data-page="timemachine"><span>◷</span><span>Time Machine</span></button>
+ <button class="navbtn" data-page="research"><span>▤</span><span>Research Center</span></button>
+ <button class="navbtn" data-page="account"><span>⚙</span><span>บัญชี</span></button>
+</aside>
+<main>
+<section class="page active" id="overview">
+ <div class="pagehead"><div><h1>Financial Overview</h1><div class="muted">ภาพรวมสุขภาพทางการเงินของคุณในเดือนนี้</div></div><span class="pill" id="todayLabel"></span></div>
+ <div class="grid">
+  <div class="card metric"><div class="muted">รายรับรวม</div><strong class="positive" id="totalIncome">฿0</strong><div class="sub">จากรายการรายรับ</div></div>
+  <div class="card metric"><div class="muted">รายจ่ายรวม</div><strong class="negative" id="totalExpense">฿0</strong><div class="sub">จากรายการรายจ่าย</div></div>
+  <div class="card metric"><div class="muted">เงินคงเหลือ</div><strong id="balance">฿0</strong><div class="sub">รายรับ − รายจ่าย</div></div>
+  <div class="card metric"><div class="muted">อัตราการออม</div><strong id="savingRate">0%</strong><div class="sub">เงินคงเหลือ ÷ รายรับ</div></div>
+ </div>
+ <div class="two">
+  <div class="card"><h3>สัดส่วนรายจ่ายตามหมวดหมู่</h3><div id="categoryBars" class="empty">ยังไม่มีข้อมูลรายจ่าย</div></div>
+  <div class="card"><h3>Financial Health Score</h3><div style="display:flex;align-items:center;gap:20px"><div id="healthScore" style="font-size:52px;font-weight:800;color:#61b5ff">--</div><div><b id="healthLabel">รอข้อมูล</b><div class="muted" style="margin-top:7px">คะแนนประเมินเบื้องต้นจากอัตราการออมและสัดส่วนรายจ่าย</div></div></div><div class="bar" style="margin-top:20px"><i id="healthBar" style="width:0%"></i></div></div>
+ </div>
+ <div class="card" style="margin-top:16px"><h3>รายการล่าสุด</h3><div id="recentTable"></div></div>
+</section>
+<section class="page" id="transactions">
+ <div class="pagehead"><div><h1>Transactions</h1><div class="muted">บันทึกรายรับและรายจ่ายเพื่อสร้างภาพจำลองทางการเงิน</div></div></div>
+ <div class="card"><h3>เพิ่มรายการใหม่</h3><div class="formgrid">
+  <div class="field"><label>ประเภท</label><select id="txType"><option value="expense">รายจ่าย</option><option value="income">รายรับ</option></select></div>
+  <div class="field"><label>จำนวนเงิน (บาท)</label><input id="txAmount" type="number" min="0" placeholder="เช่น 250"></div>
+  <div class="field"><label>หมวดหมู่</label><select id="txCategory"><option>อาหาร</option><option>เดินทาง</option><option>การศึกษา</option><option>ที่พัก</option><option>ช้อปปิ้ง</option><option>สุขภาพ</option><option>ความบันเทิง</option><option>เงินเดือน</option><option>งานเสริม</option><option>อื่น ๆ</option></select></div>
+  <div class="field"><label>วันที่</label><input id="txDate" type="date"></div>
+  <div class="field" style="grid-column:1/-1"><label>รายละเอียด</label><input id="txNote" placeholder="ระบุรายละเอียด (ไม่บังคับ)"></div>
+ </div><div class="actions"><button id="addTx">＋ บันทึกรายการ</button></div></div>
+ <div class="card" style="margin-top:16px"><h3>ประวัติรายการ</h3><div id="allTransactions"></div></div>
+</section>
+<section class="page" id="coach">
+ <div class="pagehead"><div><h1>AI Financial Coach</h1><div class="muted">วิเคราะห์พฤติกรรมจากรายการที่บันทึก และให้คำแนะนำเบื้องต้น</div></div></div>
+ <div class="grid">
+  <div class="card metric"><div class="muted">Expense Ratio</div><strong id="expenseRatio">0%</strong><div class="sub">รายจ่าย ÷ รายรับ</div></div>
+  <div class="card metric"><div class="muted">Saving Rate</div><strong id="coachSavingRate">0%</strong><div class="sub">เงินเหลือ ÷ รายรับ</div></div>
+  <div class="card metric"><div class="muted">หมวดรายจ่ายสูงสุด</div><strong id="topCategory" style="font-size:20px">—</strong><div class="sub">จากข้อมูลที่มี</div></div>
+  <div class="card metric"><div class="muted">จำนวนรายการ</div><strong id="txCount">0</strong><div class="sub">รายการทั้งหมด</div></div>
+ </div>
+ <div class="card" style="margin-top:16px"><h3>คำแนะนำสำหรับคุณ</h3><div id="coachAdvice" class="empty">เพิ่มรายการรายรับและรายจ่ายเพื่อเริ่มวิเคราะห์</div><div class="notice">หมายเหตุ: Coach ในไฟล์นี้ใช้กฎวิเคราะห์อัตโนมัติ (rule-based) ไม่ใช่คำแนะนำจาก AI หรือที่ปรึกษาการเงิน และไม่ควรใช้แทนคำแนะนำจากผู้เชี่ยวชาญ</div></div>
+</section>
+<section class="page" id="planner">
+ <div class="pagehead"><div><h1>Saving Planner</h1><div class="muted">วางแผนการออมให้ไปถึงเป้าหมาย</div></div></div>
+ <div class="two">
+  <div class="card"><h3>สร้างเป้าหมายการออม</h3>
+   <div class="field"><label>ชื่อเป้าหมาย</label><input id="goalName" placeholder="เช่น ซื้อคอมพิวเตอร์"></div>
+   <div class="field"><label>จำนวนเงินเป้าหมาย (บาท)</label><input id="goalTarget" type="number" min="1" placeholder="เช่น 30000"></div>
+   <div class="field"><label>เงินที่มีแล้ว (บาท)</label><input id="goalCurrent" type="number" min="0" value="0"></div>
+   <div class="field"><label>ต้องการให้สำเร็จภายใน (เดือน)</label><input id="goalMonths" type="number" min="1" value="12"></div>
+   <button id="makeGoal">คำนวณแผนการออม</button><div id="goalResult" style="margin-top:15px"></div>
+  </div>
+  <div class="card"><h3>เป้าหมายที่บันทึกไว้</h3><div id="goalsList" class="empty">ยังไม่มีเป้าหมาย</div></div>
+ </div>
+</section>
+<section class="page" id="timemachine">
+ <div class="pagehead"><div><h1>Financial Time Machine</h1><div class="muted">จำลองการเติบโตของเงินออมในอนาคต</div></div></div>
+ <div class="card"><div class="formgrid">
+  <div class="field"><label>เงินตั้งต้น (บาท)</label><input id="tmInitial" type="number" min="0" value="0"></div>
+  <div class="field"><label>ออมเพิ่มต่อเดือน (บาท)</label><input id="tmMonthly" type="number" min="0" value="2500"></div>
+  <div class="field"><label>ผลตอบแทนเฉลี่ยต่อปี (%)</label><input id="tmRate" type="number" min="0" max="30" step=".1" value="2"></div>
+  <div class="field"><label>ระยะเวลา</label><select id="tmYears"><option value="1">1 ปี</option><option value="3">3 ปี</option><option value="5" selected>5 ปี</option><option value="10">10 ปี</option><option value="20">20 ปี</option></select></div>
+ </div><div class="actions"><button id="simulate">จำลองอนาคต</button></div><div id="tmResult" style="margin-top:18px"></div></div>
+ <div class="notice">ตัวเลขเป็นการจำลองจากสมมติฐานผลตอบแทนคงที่ ไม่รับประกันผลตอบแทนจริง และยังไม่รวมภาษี ค่าธรรมเนียม หรือเงินเฟ้อ</div>
+</section>
+<section class="page" id="research">
+ <div class="pagehead"><div><h1>Research Center</h1><div class="muted">สรุปตัวชี้วัดและบันทึกข้อมูลสำหรับการศึกษา</div></div></div>
+ <div class="card"><h3>ข้อมูลผู้เข้าร่วม (ไม่ใช้ชื่อจริง)</h3><div class="formgrid">
+  <div class="field"><label>รหัสผู้เข้าร่วม</label><input id="participantCode" placeholder="เช่น FT-001"></div>
+  <div class="field"><label>หมายเหตุการวิจัย</label><input id="researchNote" placeholder="เช่น บันทึกหลังทดลองใช้"></div>
+ </div><div class="actions"><button id="saveResearch">บันทึก Research Note</button><button class="secondary" id="exportCsv">ส่งออกข้อมูล CSV</button></div></div>
+ <div class="grid" style="margin-top:16px">
+  <div class="card metric"><div class="muted">รายรับ</div><strong id="rIncome">฿0</strong></div><div class="card metric"><div class="muted">รายจ่าย</div><strong id="rExpense">฿0</strong></div><div class="card metric"><div class="muted">เงินเหลือ</div><strong id="rBalance">฿0</strong></div><div class="card metric"><div class="muted">จำนวนรายการ</div><strong id="rCount">0</strong></div>
+ </div><div class="card" style="margin-top:16px"><h3>Research Notes</h3><div id="researchNotes" class="empty">ยังไม่มีบันทึก</div></div>
+ <div class="notice">ส่วนนี้แสดงข้อมูลของบัญชีที่กำลังใช้งานเท่านั้น ไม่ใช่แดชบอร์ดรวมผู้เข้าร่วมวิจัยหลายคน ก่อนเก็บข้อมูลจริงควรมีเอกสารยินยอม (consent) การปกปิดตัวตน และมาตรการคุ้มครองข้อมูลตามข้อกำหนดของสถาบัน</div>
+</section>
+<section class="page" id="account">
+ <div class="pagehead"><div><h1>Account & Settings</h1><div class="muted">จัดการบัญชีและการเชื่อมต่อข้อมูล</div></div></div>
+ <div class="card"><h3>บัญชีที่ใช้งาน</h3><div id="accountEmail" style="margin-bottom:14px">—</div><div class="actions"><button class="secondary" id="downloadBackup">ดาวน์โหลดข้อมูล JSON</button><button class="danger" id="logout">ออกจากระบบ</button></div></div>
+ <div class="card" style="margin-top:16px"><h3>Firebase Configuration</h3><p class="muted">ใส่ค่า Firebase Web Config ในตัวแปร firebaseConfig ภายในไฟล์ HTML นี้ แล้วเปิดใช้งาน Firebase Authentication และ Firestore เพื่อซิงก์ข้อมูลบนคลาวด์</p><div id="firebaseInfo" class="pill">ยังไม่ได้ตั้งค่า Firebase</div></div>
+ <div class="notice">ความปลอดภัย: อย่าใส่ Service Account Private Key, รหัสผ่าน หรือ secret key ในไฟล์ HTML ที่เผยแพร่สู่สาธารณะ ค่า Firebase Web Config เป็น client config แต่ต้องตั้ง Firestore Security Rules ให้ถูกต้อง</div>
+</section>
+<footer>FinTwin 3.0 · Financial Digital Twin · Prototype for learning and research</footer>
+</main>
+</div></div>
+<script>
+/* ===== Firebase Web Config: replace placeholder values with your own Firebase web app config ===== */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID"
+};
+/* Firebase is optional. Without config, the app runs in local demo mode. */
+let auth=null, db=null, currentUser=null, firebaseEnabled=false;
+let state={transactions:[],goals:[],notes:[]};
+let isSignup=false;
+const $=id=>document.getElementById(id);
+const money=n=>'฿'+Number(n||0).toLocaleString('th-TH',{maximumFractionDigits:2});
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const localKey=()=>currentUser?'fintwin_data_'+(currentUser.uid||currentUser.email):'fintwin_guest';
+function saveLocal(){localStorage.setItem(localKey(),JSON.stringify(state))}
+function loadLocal(){try{state=JSON.parse(localStorage.getItem(localKey()))||{transactions:[],goals:[],notes:[]}}catch{state={transactions:[],goals:[],notes:[]}}}
+function totals(){let inc=0,exp=0,cats={};state.transactions.forEach(t=>{if(t.type==='income')inc+=+t.amount;else{exp+=+t.amount;cats[t.category]=(cats[t.category]||0)+ +t.amount}});return{inc,exp,balance:inc-exp,rate:inc?Math.round((inc-exp)/inc*100):0,cats}}
+function render(){
+ const t=totals();$('totalIncome').textContent=money(t.inc);$('totalExpense').textContent=money(t.exp);$('balance').textContent=money(t.balance);$('savingRate').textContent=t.rate+'%';
+ const score=Math.max(0,Math.min(100,Math.round((Math.max(0,t.rate)*.7)+(Math.max(0,100-(t.inc?t.exp/t.inc*100:100))*.3))));$('healthScore').textContent=t.inc?score:'--';$('healthLabel').textContent=!t.inc?'รอข้อมูล':score>=75?'สุขภาพการเงินดี':score>=50?'ควรปรับปรุงบางส่วน':'ควรวางแผนการเงิน';$('healthBar').style.width=(t.inc?score:0)+'%';
+ const cats=Object.entries(t.cats).sort((a,b)=>b[1]-a[1]);$('categoryBars').innerHTML=cats.length?cats.map(([k,v])=>`<div class="barrow"><div class="barlabel"><span>${safe(k)}</span><b>${money(v)}</b></div><div class="bar"><i style="width:${t.exp?Math.min(100,v/t.exp*100):0}%"></i></div></div>`).join(''):'<div class="empty">ยังไม่มีข้อมูลรายจ่าย</div>';
+ const rows=[...state.transactions].sort((a,b)=>b.date.localeCompare(a.date));const table=arr=>arr.length?`<table><thead><tr><th>วันที่</th><th>รายการ</th><th>หมวดหมู่</th><th>จำนวน</th><th></th></tr></thead><tbody>${arr.map(x=>`<tr><td>${safe(x.date)}</td><td>${safe(x.note||x.category)}</td><td>${safe(x.category)}</td><td class="amount ${x.type}">${x.type==='income'?'+':'−'}${money(x.amount)}</td><td><button class="small danger" onclick="deleteTx('${x.id}')">ลบ</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">ยังไม่มีรายการ</div>';
+ $('recentTable').innerHTML=table(rows.slice(0,5));$('allTransactions').innerHTML=table(rows);
+ const expenseRatio=t.inc?Math.round(t.exp/t.inc*100):0;$('expenseRatio').textContent=expenseRatio+'%';$('coachSavingRate').textContent=t.rate+'%';$('topCategory').textContent=cats[0]?.[0]||'—';$('txCount').textContent=state.transactions.length;
+ let advice=[];if(!t.inc)advice.push('เริ่มจากบันทึกรายรับและรายจ่ายอย่างต่อเนื่อง เพื่อให้ระบบวิเคราะห์ได้แม่นยำขึ้น');else{if(t.rate<10)advice.push('อัตราการออมยังต่ำกว่า 10% ลองตั้งเป้าออมทันทีเมื่อได้รับรายรับ');else if(t.rate>=20)advice.push('อัตราการออมอยู่ในระดับที่ดี รักษาวินัยและทบทวนเป้าหมายเป็นประจำ');if(expenseRatio>80)advice.push('รายจ่ายใช้สัดส่วนมากกว่า 80% ของรายรับ ลองตรวจสอบค่าใช้จ่ายที่ลดได้');if(cats[0])advice.push(`หมวด “${cats[0][0]}” เป็นรายจ่ายสูงสุด (${money(cats[0][1])}) ลองกำหนดงบประมาณหมวดนี้`);advice.push('ก่อนซื้อสินค้าชิ้นใหญ่ ลองจำลองผลกระทบต่อเงินออมใน Time Machine');}
+ $('coachAdvice').innerHTML=advice.map(a=>`<div style="padding:12px;border-bottom:1px solid #263b5b">✧ ${safe(a)}</div>`).join('');
+ $('goalsList').innerHTML=state.goals.length?state.goals.map(g=>`<div class="barrow"><div class="barlabel"><b>${safe(g.name)}</b><span>${money(g.monthly)}/เดือน</span></div><div class="muted">${money(g.current)} จาก ${money(g.target)} · ${g.months} เดือน</div><div class="bar"><i style="width:${Math.min(100,g.current/g.target*100)}%"></i></div></div>`).join(''):'<div class="empty">ยังไม่มีเป้าหมาย</div>';
+ $('researchNotes').innerHTML=state.notes.length?state.notes.slice().reverse().map(n=>`<div style="padding:12px;border-bottom:1px solid #263b5b"><b>${safe(n.code||'ไม่ระบุรหัส')}</b> <span class="muted">${safe(n.date)}</span><div style="margin-top:5px">${safe(n.note)}</div></div>`).join(''):'<div class="empty">ยังไม่มีบันทึก</div>';
+ $('rIncome').textContent=money(t.inc);$('rExpense').textContent=money(t.exp);$('rBalance').textContent=money(t.balance);$('rCount').textContent=state.transactions.length;$('accountEmail').textContent=currentUser?.email||'โหมดทดลอง';$('todayLabel').textContent=new Date().toLocaleDateString('th-TH',{dateStyle:'long'});
+}
+function deleteTx(id){state.transactions=state.transactions.filter(x=>x.id!==id);persist()}
+async function persist(){saveLocal();render();if(firebaseEnabled&&currentUser){try{await importCloudSave()}catch(e){console.warn('Cloud save failed',e)}}}
+async function importCloudSave(){const {doc,setDoc}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');await setDoc(doc(db,'users',currentUser.uid,'private','financialData'),state,{merge:false})}
+async function cloudLoad(){if(!firebaseEnabled||!currentUser)return;const {doc,getDoc}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');const snap=await getDoc(doc(db,'users',currentUser.uid,'private','financialData'));if(snap.exists()){state={transactions:[],goals:[],notes:[],...snap.data()};saveLocal()}}
+async function initFirebase(){if(!firebaseConfig.apiKey.startsWith('PASTE_')&&firebaseConfig.projectId!=='PASTE_YOUR_PROJECT_ID'){try{const appmod=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');const authmod=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');const fsmod=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');const app=appmod.initializeApp(firebaseConfig);auth=authmod.getAuth(app);db=fsmod.getFirestore(app);firebaseEnabled=true;$('connectionStatus').textContent='● Firebase พร้อมใช้งาน';$('firebaseInfo').textContent='Firebase config ถูกตั้งค่าแล้ว';authmod.onAuthStateChanged(auth,async user=>{if(user){currentUser={uid:user.uid,email:user.email};loadLocal();try{await cloudLoad()}catch(e){console.warn(e)}showApp()}else if(currentUser?.firebase){currentUser=null;showAuth()}});return}catch(e){console.error(e);$('connectionStatus').textContent='● Firebase เชื่อมต่อไม่สำเร็จ'}}}
+function showApp(){ $('authScreen').style.display='none';$('app').style.display='block';$('connectionStatus').textContent=firebaseEnabled?'● Firebase':'● โหมดทดลองในเครื่อง';$('firebaseInfo').textContent=firebaseEnabled?'เชื่อมต่อ Firebase แล้ว (เมื่อเข้าสู่ระบบด้วย Firebase)':'ยังไม่ได้ตั้งค่า Firebase';render()}
+function showAuth(){$('authScreen').style.display='grid';$('app').style.display='none'}
+$('toggleAuth').onclick=e=>{e.preventDefault();isSignup=!isSignup;$('authTitle').textContent=isSignup?'Create account':'Welcome back';$('authSubmit').textContent=isSignup?'สมัครสมาชิก':'เข้าสู่ระบบ';$('toggleAuth').textContent=isSignup?'มีบัญชีแล้ว? เข้าสู่ระบบ':'ยังไม่มีบัญชี? สมัครสมาชิก'};
+$('authSubmit').onclick=async()=>{const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<6){alert('กรุณากรอกอีเมลและรหัสผ่านอย่างน้อย 6 ตัวอักษร');return}if(firebaseEnabled){try{const m=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');const cred=isSignup?await m.createUserWithEmailAndPassword(auth,email,password):await m.signInWithEmailAndPassword(auth,email,password);currentUser={uid:cred.user.uid,email:cred.user.email};loadLocal();await cloudLoad();showApp()}catch(e){alert('Firebase: '+e.message)} }else{currentUser={uid:'local_'+btoa(email).replace(/=/g,''),email};loadLocal();showApp();alert('เข้าสู่โหมดทดลองในเครื่องแล้ว ข้อมูลจะอยู่ในเบราว์เซอร์นี้เท่านั้น')}}
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active')});
+$('txDate').value=new Date().toISOString().slice(0,10);
+$('addTx').onclick=()=>{const amount=Number($('txAmount').value);if(!amount||amount<=0){alert('กรุณากรอกจำนวนเงินให้ถูกต้อง');return}state.transactions.push({id:Date.now().toString(),type:$('txType').value,amount,category:$('txCategory').value,date:$('txDate').value||new Date().toISOString().slice(0,10),note:$('txNote').value.trim()});$('txAmount').value='';$('txNote').value='';persist()};
+$('makeGoal').onclick=()=>{const target=+$('goalTarget').value,current=+$('goalCurrent').value,months=+$('goalMonths').value,name=$('goalName').value.trim()||'เป้าหมายการออม';if(target<=current||months<1){alert('ตรวจสอบยอดเป้าหมาย เงินที่มี และจำนวนเดือน');return}const monthly=(target-current)/months;const g={id:Date.now().toString(),name,target,current,months,monthly};state.goals.push(g);$('goalResult').innerHTML=`<div class="pill">แผนที่แนะนำ</div><h2 style="color:var(--green)">${money(monthly)} / เดือน</h2><div class="muted">ประมาณ ${money(monthly/30)} ต่อวัน</div>`;persist()};
+$('simulate').onclick=()=>{let principal=+$('tmInitial').value,monthly=+$('tmMonthly').value,rate=+$('tmRate').value/100/12,months=+$('tmYears').value*12;if(principal<0||monthly<0||rate<0){alert('กรุณาตรวจสอบตัวเลข');return}let balance=principal;const rows=[];for(let m=1;m<=months;m++){balance=balance*(1+rate)+monthly;if(m%12===0||m===months)rows.push({year:(m/12).toFixed(1),balance})}const contributed=principal+monthly*months;$('tmResult').innerHTML=`<div class="grid"><div class="card metric"><div class="muted">มูลค่าในอนาคต</div><strong class="positive">${money(balance)}</strong></div><div class="card metric"><div class="muted">เงินที่ออมรวม</div><strong>${money(contributed)}</strong></div><div class="card metric"><div class="muted">ผลต่างจากสมมติฐาน</div><strong>${money(balance-contributed)}</strong></div></div><div style="margin-top:15px"><table><thead><tr><th>ระยะเวลา</th><th>มูลค่าจำลอง</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.year} ปี</td><td>${money(r.balance)}</td></tr>`).join('')}</tbody></table></div>`};
+$('saveResearch').onclick=()=>{const note=$('researchNote').value.trim();if(!note){alert('กรุณากรอกหมายเหตุ');return}state.notes.push({code:$('participantCode').value.trim(),note,date:new Date().toLocaleString('th-TH')});$('researchNote').value='';persist()};
+function download(name,content,type){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([content],{type}));a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+$('exportCsv').onclick=()=>{const rows=[['date','type','amount','category','note'],...state.transactions.map(t=>[t.date,t.type,t.amount,t.category,t.note])];download('fintwin-transactions.csv','\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n'),'text/csv;charset=utf-8')};
+$('downloadBackup').onclick=()=>download('fintwin-backup.json',JSON.stringify(state,null,2),'application/json');
+$('logout').onclick=async()=>{if(firebaseEnabled&&auth){const m=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');await m.signOut(auth)}currentUser=null;showAuth()};
+initFirebase();
+</script>
+</body>
+</html>
